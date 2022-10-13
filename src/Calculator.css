@@ -33,3 +33,23 @@ body {
   width: 3em;
   height: 3em;
 }
+
+.result-button {
+  width: 3em;
+  height: 3em;
+  grid-column: 4;
+  grid-row: 5;
+}
+
+.toggle-button {
+  width: 3em;
+  height: 3em;
+  grid-column: 1;
+  grid-row: 5;
+}
+
+.extra-button {
+  width: 3em;
+  height: 3em;
+  grid-row: 6;
+}

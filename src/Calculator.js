@@ -4,10 +4,12 @@ import './Calculator.css';
 
 import CalcButton from './CalcButton';
 
-const calcButtons = ['1','2','3','C','4','5','6','+','7','8','9','-','.','0','%','x','sin','cos','?','='];
+const calcButtons = ['1','2','3','C','4','5','6','+','7','8','9','-','.','0','%','x'];
+const extraButtons = ['sin', 'cos', '?'];
 
 const Calculator = (props) => {
   const [output, setOutput] = useState('');
+  const [enabledExtraButtons, setEnabledExtraButtons] = useState([]);
   const [backgroundColor, setBackgroundColor] = useState(props.backColor);
 
   /****************************
@@ -54,7 +56,7 @@ const Calculator = (props) => {
   const calculateRandom = (expr) => {
     const expressionValue = eval(expr);
     if (isFinite(expressionValue))
-      return Math.ceil(Math.random() * expressionValue);
+      return Math.floor(Math.random() * expressionValue);
     else
       return 'undefined';
   }
@@ -77,7 +79,7 @@ const Calculator = (props) => {
     const INT_24_MAX = 2**24;
     const colorValue = Math.floor(Math.random() * INT_24_MAX);
     //Hex colors have six symbols, so pad with zeroes
-    let colorValueAsHex = colorValue.toString(16).padStart(6, '0');
+    const colorValueAsHex = colorValue.toString(16).padStart(6, '0');
     //console.log("BackColor:" + colorValueAsHex);
     setBackgroundColor('#' + colorValueAsHex);
   }
@@ -95,19 +97,44 @@ const Calculator = (props) => {
     setOutput(output + x);
   };
   
-  const calculatorStyle = {'background-color': backgroundColor};
+  const toggleExtraButtons = () => {
+    if (enabledExtraButtons.length === 0) {
+      setEnabledExtraButtons(extraButtons);
+    }
+    else {
+      setEnabledExtraButtons([]);
+    }
+  };
 
+  const calculatorStyle = {'background-color': backgroundColor};
+  
   return (
     <div className='calculator' style={calculatorStyle}>
       <div className='calc-display'>{output}</div>
       <div className='calc-grid'>
         {calcButtons.map( (calcButton, index) => {
-          return <CalcButton 
+          return <CalcButton
             key={index}
+            className='calc-button'
             calcButton={calcButton}
-            calcButtonPressed={calcButtonPressed}
-            />} )}
-      </div>
+            calcButtonPressed={calcButtonPressed} />
+          } )}
+        {<CalcButton
+          className='result-button'
+          calcButton='='
+          calcButtonPressed={calculateResult}/>}
+        {<CalcButton
+          className='toggle-button'
+          calcButton='E'
+          calcButtonPressed={toggleExtraButtons}/>}
+        {enabledExtraButtons.map( (extraButton, index) => {
+          return <CalcButton
+            key={'E' + index}
+            className='extra-button'
+            calcButton={extraButton}
+            calcButtonPressed={calcButtonPressed} />
+          } )}
+        </div>
     </div>
   );
 };
