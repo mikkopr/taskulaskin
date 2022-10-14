@@ -97,7 +97,12 @@ const Calculator = (props) => {
     setOutput(output + x);
   };
   
-  const toggleExtraButtons = () => {
+  const resultButtonPressed = (x) => 
+  {
+    setOutput(calculateResult(output));
+  };
+
+  const toggleButtonPressed = () => {
     if (enabledExtraButtons.length === 0) {
       setEnabledExtraButtons(extraButtons);
     }
@@ -122,11 +127,11 @@ const Calculator = (props) => {
         {<CalcButton
           className='result-button'
           calcButton='='
-          calcButtonPressed={calculateResult}/>}
+          calcButtonPressed={resultButtonPressed}/>}
         {<CalcButton
           className='toggle-button'
           calcButton='E'
-          calcButtonPressed={toggleExtraButtons}/>}
+          calcButtonPressed={toggleButtonPressed}/>}
         {enabledExtraButtons.map( (extraButton, index) => {
           return <CalcButton
             key={'E' + index}
