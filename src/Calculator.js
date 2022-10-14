@@ -64,7 +64,6 @@ const Calculator = (props) => {
   const clear = () => '';
 
   const calcFunctions = {
-    '=': calculateResult,
     'x': calculateMultiply,
     '%': calculateDivide,
     'sin': calculateSin,
